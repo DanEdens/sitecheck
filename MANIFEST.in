@@ -1,0 +1,3 @@
+recursive-include sitecheck/*
+exclude sitecheck/bin/build.cmd
+exclude sitecheck/bin/upload.cmd

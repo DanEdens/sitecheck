@@ -1,0 +1,20 @@
+# Docker
+# Build a Docker image
+# https://docs.microsoft.com/azure/devops/pipelines/languages/docker
+
+trigger:
+- build
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool: LittleElm_Server_1
+    steps:
+    - task: CmdLine@2
+      inputs:
+        script: python -m sitecheck --help
+        failOnStderr: true
+

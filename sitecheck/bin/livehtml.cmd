@@ -1,0 +1,1 @@
+sphinx-autobuild --no-initial -p 1885 "C:\Users\Dan.Edens\Desktop\Tree\the_lab\Python\Sitecheck_Scanner\sitecheck\docs\source" "C:\Users\Dan.Edens\Desktop\Tree\the_lab\Python\Sitecheck_Scanner\sitecheck\docs\build"

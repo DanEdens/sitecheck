@@ -1,0 +1,15 @@
+
+**.txt
+**.pyc
+**.xml
+**.log
+**.swp
+**.bat
+*.whl
+*.gz
+.idea/
+.vs/
+
+.idea/workspace.xml
+/build/
+/sitecheck.egg-info/
