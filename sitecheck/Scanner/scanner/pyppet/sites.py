@@ -111,6 +111,6 @@ async def scan_plan_view(parent, platform):
     :param platform: <class 'pyppet.sites.Amp_Webpage'>
 
     """
-    for target_child in range(0, 300):
+    for target_child in range(300):
         os.environ['TARGET_CHILD'] = str(target_child)
         await platform.get_last_update(parent)

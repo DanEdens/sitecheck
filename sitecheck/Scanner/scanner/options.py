@@ -49,9 +49,8 @@ class EnvDefault(argparse.Action):
     """ Allows arguments to be set by env variable """
 
     def __init__(self, envvar, required=False, default=None, **kwargs):
-        if not default and envvar:
-            if envvar in os.environ:
-                default = os.environ[envvar]
+        if not default and envvar and envvar in os.environ:
+            default = os.environ[envvar]
         if required and default:
             required = False
         super(EnvDefault, self).__init__(default=default, required=required,

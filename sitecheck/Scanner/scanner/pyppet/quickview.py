@@ -67,15 +67,13 @@ class Qv_Webpage:
         """
         views = self.project.planarray.split(",")
         for view in views:
-            logger.debug('Scanning Planview: ' + view)
-            if view == '0':
-                pass
-            else:
+            logger.debug(f'Scanning Planview: {view}')
+            if view != '0':
                 await utlis.click(self.page, Qv_text.views)
                 await self.page.waitFor(500)
                 await utlis.wait_hover(self.page, Qv_text.scrollbar2)
                 await self.page.waitFor(300)
-                logger.info('Navigating to view #' + view)
+                logger.info(f'Navigating to view #{view}')
                 await utlis.click(self.page, Qv_text.thumb + view)
             await utlis.wait_count(self, 5)
             await sites.scan_plan_view(self, Qv_Webpage)

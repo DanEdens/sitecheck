@@ -31,10 +31,6 @@ def check_mode(sensor: object) -> object:
     :rtype: object
     """
     return
-    if os.environ['Repl']:
-        logger.log(f'{sensor} is missing data')
-        return input(
-            "Pausing run for eval.\nPress Enter to continue...")
 
 
 class watchdog_handler: 
