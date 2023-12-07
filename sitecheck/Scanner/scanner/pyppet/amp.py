@@ -54,9 +54,7 @@ class Amp_Webpage:
                 )
             link = await self.page.J(_data)
 
-            if name is None:
-                pass
-            else:
+            if name is not None:
                 # Retrieve sensor's Data from Amp
 
                 scan = self.page.evaluate

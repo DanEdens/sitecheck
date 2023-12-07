@@ -44,7 +44,7 @@ async def Scan():
     """
     from sitecheck.Scanner.scanner import projecthandler
 
-    utlis.post(f'arguments', f"Scan Confirmed >> scanner {sys.argv}")
+    utlis.post('arguments', f"Scan Confirmed >> scanner {sys.argv}")
     utlis.post('ProjectTable',
                f'\n{utlis.projects_table(config.read_config_file())}')
     [await (projecthandler.run_controller(project)) for project in
@@ -73,9 +73,9 @@ def repl():
     Implies debug, check, and headful modes
     """
     projects = config.read_config_file()
-    utlis.post('Scanner/repl', f"True", retain=True)
+    utlis.post('Scanner/repl', "True", retain=True)
     embed(globals(), locals())
-    utlis.post('Scanner/repl', f"False", retain=True)
+    utlis.post('Scanner/repl', "False", retain=True)
 
 
 def edit():

@@ -8,7 +8,7 @@ def list_directories(path='.'):
     """ A function that lists the directories """
     dir_list = next(os.walk(path))[1]
     for index, dirs in enumerate(dir_list):
-        print(index + 1) + ") ", dirs
+        (f"{print(index + 1)}) ", dirs)
     return dir_list
 
 

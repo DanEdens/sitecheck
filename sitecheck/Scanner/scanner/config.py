@@ -92,12 +92,14 @@ def file_dialog():
         import tkinter
         from tkinter import filedialog
 
-        options = {}
-        options['defaultextension'] = '.ini'
-        options['filetypes'] = [('ini config files', '.ini')]
-        options['initialdir'] = os.environ['ROOT_DIR']
-        options['initialfile'] = 'projects.ini'
-        options['title'] = 'Select Project Configuration File'
+        options = {
+            'defaultextension': '.ini',
+            'filetypes': [('ini config files', '.ini')],
+            'initialdir': os.environ['ROOT_DIR'],
+            'initialfile': 'projects.ini',
+            'title': 'Select Project Configuration File',
+        }
+
         root = tkinter.Tk()
         filename = filedialog.askopenfilename(**options)
         root.destroy()
@@ -113,15 +115,11 @@ def read_config_file():
 
     :rtype: list
     """
-    if os.path.isfile(projectstore):
-        config_file = projectstore
-    else:
-        config_file = file_dialog()
-
+    config_file = projectstore if os.path.isfile(projectstore) else file_dialog()
     if config_file == '':
         sys.exit("No Config selected. Exiting..")
     elif not os.path.isfile(config_file):
-        logger.warning("file (%s) not found. " % config_file)
+        logger.warning(f"file ({config_file}) not found. ")
         sys.exit("Exiting..")
 
     config = configparser.ConfigParser()

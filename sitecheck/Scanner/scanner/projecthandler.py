@@ -31,22 +31,18 @@ async def run_controller(project):
     job = Project_runner(project)
 
     # Check for Default value 'All'
-    if options.Project != 'All':
-        # If not 'All' filter out everything except --project
-        if options.Project == 'force':
-            async with job:
-                await job.project_site_handler()
-        elif job.title == options.Project:
-            async with job:
-                await job.project_site_handler()
-        else:
-            return 0
-    else:
+    if options.Project == 'All':
         if job.project.skip == 'true':
             logger.info(f'Skipping project: {job.title}')
         else:
             async with job:
                 await job.project_site_handler()
+
+    elif options.Project == 'force' or job.title == options.Project:
+        async with job:
+            await job.project_site_handler()
+    else:
+        return 0
 
 
 class Project_runner:
@@ -67,9 +63,6 @@ class Project_runner:
         try:
             if not os.environ['Repl']:
                 await self.browser.close()
-            else:
-                pass
-                # await self.browser.disconnect()
         except IOError:
             pass
 
@@ -89,17 +82,15 @@ class Project_runner:
         logger.debug(f'options.project: {options.Project}\n title: '
                      f'{self.title}\n'
                      f'skip: {self.project.skip}')
-        if options.Project != 'All':
-            if self.title == options.Project:
-                run_complete: bool = await self.project_site_handler()
-            else:
-                return 0
+        if (
+            options.Project != 'All'
+            and self.title == options.Project
+            or options.Project == 'All'
+            and self.project.skip != 'true'
+        ):
+            run_complete: bool = await self.project_site_handler()
         else:
-            if self.project.skip == 'true':
-                return 0
-            else:
-                run_complete: bool = await self.project_site_handler()
-
+            return 0
         # After a successful run, Set project skip = true
         if run_complete:
             config.edit_config_option(self.title, 'skip', 'true')
@@ -119,7 +110,7 @@ class Project_runner:
         elif self.project.site == 'qv':
             await pyppet.qv_runner(self)
         elif self.project.site == 'truelook':
-            return str('In Development')
+            return 'In Development'
 
         path_to_temp = await adaptivecards.generator(self.project)
         logger.debug(path_to_temp)

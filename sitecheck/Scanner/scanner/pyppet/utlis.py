@@ -152,17 +152,16 @@ def post(topic, payload, retain=False):
         client.publish(topic, payload, retain)
         # logger.debug(payload)
     except ValueError:
-        logger.info(
-            f"pub Failed because of wildcard: {str(topic)}=:={str(payload)}")
-        logger.info(f"Attempting fix...")
+        logger.info(f"pub Failed because of wildcard: {topic}=:={payload}")
+        logger.info("Attempting fix...")
         try:
             tame_t = topic.replace("+", "_")
             tame_topic = tame_t.replace("#", "_")
             tame_p = payload.replace("+", "_")
             tame_payload = tame_p.replace("#", "_")
             logger.info("Fix successful, Sending data...")
-            client.publish(str(tame_topic), str(tame_payload), retain)
-            # logger.debug(payload)
+            client.publish(tame_topic, tame_payload, retain)
+                    # logger.debug(payload)
         except Exception as error:
-            logger.info(f"Fix Failed. Bug report sent.")
+            logger.info("Fix Failed. Bug report sent.")
             client.publish("Scanner/error", str(error), qos=1, retain=True)

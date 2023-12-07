@@ -53,16 +53,17 @@ class SensorDataFormatter:
         self.time = time
 
     def __str__(self):
-        data_line: str = template.st1 + \
-                         self.name + \
-                         template.st2 + \
-                         self.status + \
-                         template.st3 + \
-                         self.color + \
-                         template.st4 + \
-                         self.time + \
-                         template.st5
-        return str(data_line)
+        return (
+            template.st1
+            + self.name
+            + template.st2
+            + self.status
+            + template.st3
+            + self.color
+            + template.st4
+            + self.time
+            + template.st5
+        )
 
 
 class Generator:
@@ -138,12 +139,10 @@ class Generator:
             print(template.sensor_prefix, file=gen_file)
             _run = len(card_list)
 
-            _loop = 0
-            for e in card_list:
+            for _loop, e in enumerate(card_list, start=1):
                 data_info = SensorDataFormatter(e[0], e[1], e[2], e[3])
-                _loop += 1
                 if _loop != _run:
-                    print(str(data_info) + ',', file=gen_file)
+                    print(f'{str(data_info)},', file=gen_file)
                 else:
                     print(data_info, file=gen_file)
             print(template.sensor_suffix, file=gen_file)

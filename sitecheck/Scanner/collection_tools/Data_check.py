@@ -94,11 +94,7 @@ def make_logger() -> object:
     _logger = logging.getLogger('log')
     logformat = logging.Formatter("%(message)s")
 
-    if debug:
-        _level = 'DEBUG'
-    else:
-        _level = 'INFO'
-
+    _level = 'DEBUG' if debug else 'INFO'
     if do_log_file:
         logfile = os.path.join(root, f'runlog\\{filedate}.log')
         ensure_exists(logfile)
@@ -121,8 +117,7 @@ def fetch(data: str):
     :return: iterable object
     """
     cursor.execute(data)
-    result = cursor.fetchall()
-    return result
+    return cursor.fetchall()
 
 
 def post(topic, payload):
@@ -160,9 +155,7 @@ def store(self):
 
 def check_data(data):
     """Check if data exists """
-    if len(data) != 0:
-        pass
-    else:
+    if len(data) == 0:
         logger.warn('Data not found')
 
 
@@ -256,9 +249,9 @@ class each_project:
 def main():
     """ Main """
     projects = fetch(
-            f"SELECT [ID],[NAME],[ACTIVE] FROM "
-            f"[QUICKVIEW_DB].[dbo].[PROJECTS] "
-            f"WHERE ACTIVE = 'TRUE'")
+        "SELECT [ID],[NAME],[ACTIVE] FROM [QUICKVIEW_DB].[dbo].[PROJECTS] WHERE ACTIVE = 'TRUE'"
+    )
+
     for each in projects:
         logger.debug(each[1])
         job = each_project(each)
